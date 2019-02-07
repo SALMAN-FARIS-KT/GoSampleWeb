@@ -11,8 +11,9 @@ import (
 
 type Employee struct {
     Id    int
-    Name  string
-    City string
+    Event string
+    Date string
+    Time string
 }
 
 func dbConn() (db *sql.DB) {
@@ -39,14 +40,15 @@ func Index(w http.ResponseWriter, r *http.Request) {
     res := []Employee{}
     for selDB.Next() {
         var id int
-        var name, city string
-        err = selDB.Scan(&id, &name, &city)
+        var event, date, time string
+        err = selDB.Scan(&id, &event, &date, &time)
         if err != nil {
             panic(err.Error())
         }
         emp.Id = id
-        emp.Name = name
-        emp.City = city
+        emp.Event = event
+        emp.Date = date
+        emp.Time = time
         res = append(res, emp)
     }
     tmpl.ExecuteTemplate(w, "Index", res)
@@ -63,14 +65,15 @@ func Show(w http.ResponseWriter, r *http.Request) {
     emp := Employee{}
     for selDB.Next() {
         var id int
-        var name, city string
-        err = selDB.Scan(&id, &name, &city)
+        var event, date, time string
+        err = selDB.Scan(&id, &event, &date, &time)
         if err != nil {
             panic(err.Error())
         }
         emp.Id = id
-        emp.Name = name
-        emp.City = city
+        emp.Event = event
+        emp.Date = date
+        emp.Time = time
     }
     tmpl.ExecuteTemplate(w, "Show", emp)
     defer db.Close()
@@ -90,14 +93,15 @@ func Edit(w http.ResponseWriter, r *http.Request) {
     emp := Employee{}
     for selDB.Next() {
         var id int
-        var name, city string
-        err = selDB.Scan(&id, &name, &city)
+        var event, date, time string
+        err = selDB.Scan(&id, &event, &date, &time)
         if err != nil {
             panic(err.Error())
         }
         emp.Id = id
-        emp.Name = name
-        emp.City = city
+        emp.Event = event
+        emp.Date = date
+        emp.Time = time
     }
     tmpl.ExecuteTemplate(w, "Edit", emp)
     defer db.Close()
@@ -106,14 +110,15 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 func Insert(w http.ResponseWriter, r *http.Request) {
     db := dbConn()
     if r.Method == "POST" {
-        name := r.FormValue("name")
-        city := r.FormValue("city")
-        insForm, err := db.Prepare("INSERT INTO employee(name, city) VALUES(?,?)")
+        event := r.FormValue("event")
+        date := r.FormValue("date")
+        time := r.FormValue("time")
+        insForm, err := db.Prepare("INSERT INTO employee(event, date, time) VALUES(?,?,?)")
         if err != nil {
             panic(err.Error())
         }
-        insForm.Exec(name, city)
-        log.Println("INSERT: Name: " + name + " | City: " + city)
+        insForm.Exec(event, date, time)
+        log.Println("INSERT: Event: " + event + " | Date: " + date + " | Time: " + time)
     }
     defer db.Close()
     http.Redirect(w, r, "/", 301)
@@ -122,15 +127,16 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 func Update(w http.ResponseWriter, r *http.Request) {
     db := dbConn()
     if r.Method == "POST" {
-        name := r.FormValue("name")
-        city := r.FormValue("city")
-        id := r.FormValue("uid")
-        insForm, err := db.Prepare("UPDATE employee SET name=?, city=? WHERE id=?")
+        event := r.FormValue("event")
+        date := r.FormValue("date")
+        time := r.FormValue("time")
+        id := r.FormValue("id")
+        insForm, err := db.Prepare("UPDATE employee SET event=?, date=?, time=? WHERE id=?")
         if err != nil {
             panic(err.Error())
         }
-        insForm.Exec(name, city, id)
-        log.Println("UPDATE: Name: " + name + " | City: " + city)
+        insForm.Exec(event, date, time, id)
+        log.Println("UPDATE: Event: " + event + " | Date: " + date + " | Time " + time)
     }
     defer db.Close()
     http.Redirect(w, r, "/", 301)

@@ -24,8 +24,9 @@ DROP TABLE IF EXISTS `employee`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `employee` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) NOT NULL,
-  `city` varchar(30) NOT NULL,
+  `event` varchar(30) NOT NULL,
+  `date` varchar(30) NOT NULL,
+   `time` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

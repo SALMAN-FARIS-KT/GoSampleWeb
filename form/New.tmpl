@@ -1,11 +1,12 @@
 {{ define "New" }}
   {{ template "Header" }}
     {{ template "Menu" }} 
-   <h2>New Name and City</h2>  
+   <h2 style="color:blue;"> Add your Event</h2>  
     <form method="POST" action="insert">
-      <label> Name </label><input type="text" name="name" /><br />
-      <label> City </label><input type="text" name="city" /><br />
-      <input type="submit" value="Save user" />
+      <label style="margin-left:50px;">Event</label><input style="margin-left:50px;padding: 10px 15px;"type="text" name="event" /><br/>
+      <label style="margin-left:50px;">Date</label><input style="margin-left:50px;padding: 10px 15px;" type="date" name="date" /><br/>
+      <label style="margin-left:50px;">Time</label><input style="margin-left:50px;padding: 10px 15px;" type="time" name="time" /><br/>
+      <input style="padding: 14px 18px; background-color: #99ddff; margin-left:90px;margin-bottom:10px;" type="submit" value="Save Event"/>
     </form>
   {{ template "Footer" }}
 {{ end }}
